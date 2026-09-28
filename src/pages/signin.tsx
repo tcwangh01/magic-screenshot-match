@@ -1,30 +1,18 @@
 import { useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { AuthShell } from "@/components/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { useDocumentMeta } from "@/hooks/use-document-meta";
 
 const TITLE = "Sign in — Flight Price Notifier";
 const DESCRIPTION = "登入你的 Flight Price Notifier 帳號，管理機票降價通知。";
 
-export const Route = createFileRoute("/signin")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: SignIn,
-});
-
-function SignIn() {
+export function SignIn() {
+  useDocumentMeta(TITLE, DESCRIPTION);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,7 +31,7 @@ function SignIn() {
       toast.error(error.message);
       return;
     }
-    navigate({ to: "/app" });
+    navigate("/app");
   }
 
   return (

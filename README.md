@@ -24,3 +24,14 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Build & deploy
+
+This is a client-only Vite + React SPA (React Router v7).
+
+```sh
+bun install
+bun run build   # outputs to dist/
+```
+
+`vercel.json` serves `dist/` and rewrites every path to `/index.html` so client-side routes (`/signin`, `/signup`, `/app`) resolve on refresh. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in the Vercel project's environment variables.
