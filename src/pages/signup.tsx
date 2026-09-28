@@ -1,30 +1,18 @@
 import { useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { AuthShell } from "@/components/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { useDocumentMeta } from "@/hooks/use-document-meta";
 
 const TITLE = "Sign up — Flight Price Notifier";
 const DESCRIPTION = "建立 Flight Price Notifier 帳號，開始接收機票降價通知。";
 
-export const Route = createFileRoute("/signup")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: SignUp,
-});
-
-function SignUp() {
+export function SignUp() {
+  useDocumentMeta(TITLE, DESCRIPTION);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,10 +34,10 @@ function SignUp() {
     }
     if (!data.session) {
       toast.success("請到信箱點擊確認連結後再登入。");
-      navigate({ to: "/signin" });
+      navigate("/signin");
       return;
     }
-    navigate({ to: "/app" });
+    navigate("/app");
   }
 
   return (

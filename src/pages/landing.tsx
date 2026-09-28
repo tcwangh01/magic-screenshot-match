@@ -1,26 +1,13 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router";
 import { Plane, BellRing, CalendarX2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { useReveal } from "@/hooks/use-reveal";
+import { useDocumentMeta } from "@/hooks/use-document-meta";
 
 const TITLE = "Flight Price Notifier — 機票降價通知";
 const DESCRIPTION =
   "設定航線與目標價，機票降價就通知你。Set a route and a target price — we email you when the fare drops.";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: Landing,
-});
 
 const FEATURES = [
   {
@@ -43,7 +30,8 @@ const FEATURES = [
   },
 ];
 
-function Landing() {
+export function Landing() {
+  useDocumentMeta(TITLE, DESCRIPTION);
   useReveal();
   const { session, loading } = useAuth();
 
@@ -55,9 +43,7 @@ function Landing() {
             <span className="grid size-8 place-items-center rounded-lg bg-primary/15 text-primary">
               <Plane className="size-4" />
             </span>
-            <span className="text-sm font-semibold tracking-tight">
-              Flight Price Notifier
-            </span>
+            <span className="text-sm font-semibold tracking-tight">Flight Price Notifier</span>
           </Link>
 
           {loading ? (
@@ -93,11 +79,7 @@ function Landing() {
               Set a route and a target price — we email you when the fare drops.
             </p>
             <div className="reveal mt-10 flex flex-wrap justify-center gap-3">
-              <Button
-                asChild
-                size="lg"
-                style={{ boxShadow: "var(--shadow-glow)" }}
-              >
+              <Button asChild size="lg" style={{ boxShadow: "var(--shadow-glow)" }}>
                 <Link to="/signup">免費開始 / Get started</Link>
               </Button>
               <Button asChild size="lg" variant="secondary">
@@ -117,13 +99,9 @@ function Landing() {
                 <span className="grid size-11 place-items-center rounded-xl bg-primary/15 text-primary">
                   <feature.icon className="size-5" />
                 </span>
-                <h2 className="mt-5 text-lg font-semibold tracking-tight">
-                  {feature.title}
-                </h2>
+                <h2 className="mt-5 text-lg font-semibold tracking-tight">{feature.title}</h2>
                 <p className="text-sm text-primary/80">{feature.subtitle}</p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {feature.body}
-                </p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
               </article>
             ))}
           </div>
